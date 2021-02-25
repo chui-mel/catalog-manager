@@ -1,6 +1,6 @@
 package com.bunnings.catalog;
 
-public class CategoryManagerApplication {
+public class CatalogManagerApplication {
 	public static void main(String[] args) {
 	}
 }

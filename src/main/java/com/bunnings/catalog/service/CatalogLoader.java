@@ -21,30 +21,31 @@ public class CatalogLoader {
 
 	private final CsvReader csvReader;
 
-	public Catalog loadFromFile(String supplierFile, String catalogFile, String barcodeFile) {
+	public Catalog loadFromFile(String companyName, String supplierFile, String catalogFile, String barcodeFile) {
 		Map<String, Supplier> suppliers = loadSupplier(supplierFile);
-		Map<String, Product> products = loadProducts(catalogFile);
+		Map<String, Product> products = loadProducts(companyName, catalogFile);
 
 		List<BarcodeData> barcodeDataList = csvReader.readBarcodes(barcodeFile);
 		barcodeDataList.forEach(
 				barcodeData -> {
-					Supplier supplier = suppliers.get(barcodeData.getSupplierId());
 					Product product = products.get(barcodeData.getSku());
-					ProductSupplier productSupplier = product.getSupplier(supplier);
+					ProductSupplier productSupplier = product.getSupplier(barcodeData.getSupplierId());
 					productSupplier.addBarcode(barcodeData.getBarcode());
 					product.addSupplier(productSupplier);
 				}
 		);
 
 		return Catalog.builder()
+				.companyName(companyName)
 				.products(new ArrayList<>(products.values()))
 				.build();
 	}
 
-	private Map<String, Product> loadProducts(String catalogFile) {
+	private Map<String, Product> loadProducts(String companyName, String catalogFile) {
 		return csvReader.readCatalog(catalogFile).stream()
 				.collect(Collectors.toMap(ProductData::getSku,
 						p -> Product.builder()
+								.companyName(companyName)
 								.sku(p.getSku())
 								.description(p.getDescription())
 								.suppliers(new HashMap<>())

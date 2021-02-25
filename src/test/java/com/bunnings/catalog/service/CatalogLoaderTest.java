@@ -16,10 +16,13 @@ class CatalogLoaderTest {
 	@Test
 	void loadCatalogFromFile() {
 		Catalog catalogA = catalogLoader.loadFromFile(
+				"A",
 				"src/test/resources/input/suppliersA.csv",
 				"src/test/resources/input/catalogA.csv",
 				"src/test/resources/input/barcodesA.csv");
 
 		List<Product> products = catalogA.getProducts();
+
+		assertEquals(5, products.size());
 	}
 }
