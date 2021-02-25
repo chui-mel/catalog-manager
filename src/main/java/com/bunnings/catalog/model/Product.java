@@ -1,12 +1,12 @@
 package com.bunnings.catalog.model;
 
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
-@Data
+@Getter
 @Builder
 public class Product {
 	private String companyName;
@@ -34,7 +34,7 @@ public class Product {
 		return suppliers.values().stream()
 				.map(ps -> ps.getBarcodes().stream()
 							.map(barcode -> BarcodeProduct.builder()
-									.barcode(barcode).sku(ps.getSku()).companyName(companyName)
+									.barcode(barcode).sku(ps.getSku()).description(description).companyName(companyName)
 									.build())
 							.collect(Collectors.toList()))
 				.flatMap(Collection::stream)

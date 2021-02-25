@@ -8,6 +8,7 @@ import lombok.Data;
 public class BarcodeProduct implements Comparable<BarcodeProduct> {
 	private String barcode;
 	private String sku;
+	private String description;
 	private String companyName;
 
 	@Override

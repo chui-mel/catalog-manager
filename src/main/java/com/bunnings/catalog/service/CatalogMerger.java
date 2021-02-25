@@ -21,16 +21,19 @@ public class CatalogMerger {
 		Map<String, Catalog>
 		   catalogsMap = Map.of(primary.getCompanyName(), primary, secondary.getCompanyName(), secondary);
 
-		merged.stream().forEach(b -> {
+		merged.forEach(b -> {
 			Product product = mergedProducts.getOrDefault(b.getSku() + ":" + b.getCompanyName(),
-							Product.builder().companyName(b.getCompanyName()).sku(b.getSku()).suppliers(new HashMap<>()).build());
+							Product.builder()
+									.companyName(b.getCompanyName()).sku(b.getSku()).description(b.getDescription()).suppliers(new HashMap<>())
+									.build());
 
-			Optional<String> sid = catalogsMap.get(b.getCompanyName()).getSupplierByProductAndBarcode(b.getSku(), b.getBarcode());
-			if (sid.isPresent()) {
-				ProductSupplier pb = product.getSupplier(sid.get());
-				pb.addBarcode(b.getBarcode());
-				product.addSupplier(pb);
-			}
+			catalogsMap.get(b.getCompanyName()).getSupplierByProductAndBarcode(b.getSku(), b.getBarcode())
+					.ifPresent(id -> {
+						ProductSupplier pb = product.getSupplier(id);
+						pb.addBarcode(b.getBarcode());
+						product.addSupplier(pb);
+					});
+
 			mergedProducts.put(product.getSku() + ":" + product.getCompanyName(), product);
 		});
 
