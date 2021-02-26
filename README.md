@@ -1,4 +1,4 @@
-# Category Merger
+# Catalog Manager
 ## Tech Stack:
 * Java 11
 * Lombok
@@ -6,36 +6,32 @@
 
 ## Topics
 1. [How to run this application](#How-to-run-this-application)
-2. [How to access the spring boot restful application](#How-to-access-the-spring-boot-restful-application)
-3. [Design and implementation](#Design-and-implementation)
-4. [Assumptions](#Assumptions)
+2. [Design and implementation](#Design-and-implementation)
+3. [Assumptions and TradeOffs](#Assumptions-and-trandoffs)
 
 ## How to run this application
 
-* Navigate the root folder /weather-app under the command line
+* Navigate the root folder /catalog-manager under the command line
 * Run the command to build the whole project:
- `gradle clean build`
+ `./gradlew clean shadowJar`
 * Run the command to start the application: 
-  `java  -jar ./build/libs/weather-app-0.0.1-SNAPSHOT.jar --openweather.api.token={your openweather api token}`
-* If you want to run in IDE, please check application.yml to change "FIXME" in token part
+  `java  -jar ./build/libs/catalog-manager-1.0-SNAPSHOT-all.jar`
+* Or you can run in IDE directly for CatalogManagerApplication
 
-## How to access the spring boot restful application
-you can access via:
-`http://localhost:8090/weather?city={city}&country={two characters country code}&token={can be found in data init}`
-
-This is the example:
-`http://localhost:8090/weather?city=shanghai&country=cn&token=ba3a5f28-eddf-43ee-8202-88682f23858e`
+You will be asked to input the files needed for primary company and secondary company (the one was bought) in the following format:
+`company name, supplier csv file, catalog csv file, barcode csv file`
+If all inputs correct and all files are correct, you will see the result in `result-output.csv`.
 
 ## Design and implementation
-* Implement a separate RateLimitService for rate limitation, using a simple way like sliding window to count the requests for last hour. For calculating, stored requests history as token usages into a table.
-* Hibernate builds the entity layer
-* Flyway prepares the initial data
-* Spring Data JPA builds the repository layer
-* Mockito and MockMvc unit test service and controller layer, Wiremock for 3rd party API tests
-* Defined customised exceptions for better error handling and all the exceptions can be centrally handled in one place (ControllerExceptionHandler.java)
+* Set up domain models for Supplier, Product, ProductSupplier and Catalog
+* Implement the catalogs merge by using merging two sorted list
+* Separate io operation and business logic
 * Lombok automatically generates getter,setter, constructor, hashcode, log etc.
 * High test coverage
 
-## Assumptions
-* didn't consider rate limitation in Openweather API side
-* since the overall traffic is pretty low, didn't choose 3rd party lib for rate limits and faster ways for storing requests history
+## Assumptions & TradeOffs
+* There is no duplicated barcode and sku in one company
+* The order of output is not important as long the results are correct
+* Didn't check input of Java application because of tight time
+* Didn't handle invalid data from CSV files
+* Didn't handle specific exceptions because of tight time 

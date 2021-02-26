@@ -6,6 +6,7 @@ import com.bunnings.catalog.io.data.SupplierData;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
 import lombok.SneakyThrows;
+import org.apache.commons.lang3.StringUtils;
 
 import java.io.Reader;
 import java.nio.file.Files;
@@ -17,6 +18,9 @@ public class CsvReader {
 
 	@SneakyThrows
 	public List<BarcodeData> readBarcodes(String fileName) {
+		if (StringUtils.isEmpty(fileName)) {
+			throw new IllegalArgumentException("Barcode file should not be empty, please check");
+		}
 		List<BarcodeData> barcodeDataList = new ArrayList<>();
 
 		try (Reader reader = Files.newBufferedReader(Paths.get(fileName));
@@ -35,6 +39,10 @@ public class CsvReader {
 
 	@SneakyThrows
 	public List<ProductData> readCatalog(String fileName) {
+		if (StringUtils.isEmpty(fileName)) {
+			throw new IllegalArgumentException("Catalog file should not be empty, please check");
+		}
+
 		List<ProductData> productDataList = new ArrayList<>();
 
 		try (Reader reader = Files.newBufferedReader(Paths.get(fileName));
@@ -52,6 +60,10 @@ public class CsvReader {
 
 	@SneakyThrows
 	public List<SupplierData> readSuppliers(String fileName) {
+		if (StringUtils.isEmpty(fileName)) {
+			throw new IllegalArgumentException("Suppliers file should not be empty, please check");
+		}
+
 		List<SupplierData> supplierDataList = new ArrayList<>();
 
 		try (Reader reader = Files.newBufferedReader(Paths.get(fileName));

@@ -30,4 +30,5 @@ public class Catalog {
 				.map(product -> product.findSupplierByBarcode(barcode))
 				.map(Object::toString);
 	}
+
 }

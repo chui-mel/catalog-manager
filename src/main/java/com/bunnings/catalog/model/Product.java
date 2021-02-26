@@ -20,7 +20,7 @@ public class Product {
 
 	public ProductSupplier getSupplier(String sid) {
 		return suppliers.getOrDefault(sid,
-				ProductSupplier.builder().sid(sid).barcodes(new ArrayList<>()).build());
+				ProductSupplier.builder().sid(sid).sku(sku).barcodes(new ArrayList<>()).build());
 	}
 
 	public Optional<String> findSupplierByBarcode(String barcode) {
@@ -40,5 +40,4 @@ public class Product {
 				.flatMap(Collection::stream)
 				.collect(Collectors.toList());
 	}
-
 }

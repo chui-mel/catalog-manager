@@ -22,10 +22,10 @@ public class CatalogLoader {
 	private final CsvReader csvReader;
 
 	public Catalog loadFromFile(String companyName, String supplierFile, String catalogFile, String barcodeFile) {
-		Map<String, Supplier> suppliers = loadSupplier(supplierFile);
-		Map<String, Product> products = loadProducts(companyName, catalogFile);
+		Map<String, Supplier> suppliers = loadSupplier(supplierFile.trim());
+		Map<String, Product> products = loadProducts(companyName, catalogFile.trim());
 
-		List<BarcodeData> barcodeDataList = csvReader.readBarcodes(barcodeFile);
+		List<BarcodeData> barcodeDataList = csvReader.readBarcodes(barcodeFile.trim());
 		barcodeDataList.forEach(
 				barcodeData -> {
 					Product product = products.get(barcodeData.getSku());
