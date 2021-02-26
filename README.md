@@ -7,7 +7,7 @@
 ## Topics
 1. [How to run this application](#How-to-run-this-application)
 2. [Design and implementation](#Design-and-implementation)
-3. [Assumptions and TradeOffs](#Assumptions-and-trandoffs)
+3. [Assumptions and TradeOffs](#Assumptions-and-tradeoffs)
 
 ## How to run this application
 
@@ -29,7 +29,7 @@ If all inputs correct and all files are correct, you will see the result in `res
 * Lombok automatically generates getter,setter, constructor, hashcode, log etc.
 * High test coverage
 
-## Assumptions & TradeOffs
+## Assumptions and TradeOffs
 * There is no duplicated barcode and sku in one company
 * The order of output is not important as long the results are correct
 * Didn't check input of Java application because of tight time
